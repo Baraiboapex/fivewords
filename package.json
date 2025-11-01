@@ -1,0 +1,20 @@
+{
+  "name": "fivewords",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Baraiboapex/fivewords#readme",
+  "bugs": {
+    "url": "https://github.com/Baraiboapex/fivewords/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baraiboapex/fivewords.git"
+  },
+  "license": "ISC",
+  "author": "Baraiboapex",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  }
+}
