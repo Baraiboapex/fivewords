@@ -1,0 +1,11 @@
+TODO:
+-----------------------------------------------------------------------------------
+1.) Wire up all API functions to the repository layer! => WIP
+
+2.)Get started on designing and developing the react native FE!!
+
+3.) Test API with postman!
+
+4.) Learn how node.js middlewear works! 
+
+5.) Add test cases to your API!
