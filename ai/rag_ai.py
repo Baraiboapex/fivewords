@@ -17,7 +17,10 @@ import logging
 import traceback
 import gc
 import re
+<<<<<<< HEAD
 import unidecode
+=======
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -26,7 +29,27 @@ logging.basicConfig(level=logging.WARNING)
 
 import torch
 
+<<<<<<< HEAD
 STOP_PHRASE = "I'm sorry, I do not have an answer for that."
+=======
+class StopAfterPhraseCriteria(StoppingCriteria):
+    """
+    Custom stopping criterion to terminate generation once the STOP_PHRASE
+    has been generated.
+    """
+    def __init__(self, stop_token_ids: torch.LongTensor):
+        self.stop_token_ids = stop_token_ids
+        self.len = len(stop_token_ids)
+
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+        if input_ids.shape[-1] >= self.len:
+            last_tokens = input_ids[0, -self.len:]
+            if torch.equal(last_tokens, self.stop_token_ids):
+                return True 
+        return False
+
+STOP_PHRASE = "I'm sorry, I don't have an answer for that."
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
 MODEL_MAX_LENGTH = 768 
 DEFAULT_K_DOCUMENTS = 3
 CHATML_TEMPLATE = [
@@ -34,6 +57,7 @@ CHATML_TEMPLATE = [
     {
         "role": "system",
         "content": (
+<<<<<<< HEAD
             """
                 You are an **Expert Legal Assistant** Your task is to analyze the contract provided in the Context section and answer the user's Question. 
 
@@ -61,6 +85,14 @@ CHATML_TEMPLATE = [
                 * **RULE VIOLATION:** You **MUST NOT** combine the factual answer with the negative constraint phrase.
                 * **ASCII COMPLIANCE:** The output must use **strictly standard ASCII characters**. (e.g., use ' instead of ’; use " instead of “ ”).
             """
+=======
+            "You are a helpful and expert legal assistant. Your task is to analyze the contract provided in the Context section and answer the user's Question. "
+            "Answer the question clearly and concisely using ONLY the provided context. Do not use external knowledge or make inferences. "
+            "***GROUNDING INSTRUCTION:*** Before providing any answer, first determine if the relevant information is explicitly present in the Context. "
+            "If the Context states that the information is in an Exhibit (e.g., Exhibit A, Exhibit B) OR if the required information is left blank (e.g., \"$_____\", \"(DATE)\"), you **MUST** respond with the following EXACT phrase, and NOTHING ELSE: \"I'm sorry, I don't have an answer for that.\" DO NOT output this phrase more than once, and DO NOT generate anything else other than this phrase." 
+            "For all other questions, provide a clear, concise answer. Maintain a strictly professional, legal, and contractual tone. Do not generate jokes, response examples, or conversational fillers. "
+            "Output must use strictly standard ASCII characters. For example, do not use \"’\" but instead use \"'\"."
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         )
     },
     # 2. User Role: Uses the placeholders
@@ -95,6 +127,7 @@ def load_llm_resources(model_name):
             
             LLM_TOKENIZER = AutoTokenizer.from_pretrained(model_name)
             
+<<<<<<< HEAD
             # This is essential for 6GB VRAM cards with models like Phi-3-mini-128k-instruct.
             # Though this is a small model, this is still quite large for a 6GB V-RAM card.
             LLM_MODEL = AutoModelForCausalLM.from_pretrained(
@@ -105,6 +138,17 @@ def load_llm_resources(model_name):
                 low_cpu_mem_usage=True, 
                 trust_remote_code=False,
                 attn_implementation='eager'
+=======
+            # CRITICAL FIX RE-APPLIED: Use device_map="auto" to enable memory offloading.
+            # This is essential for 6GB VRAM cards with large models like Phi-3-128k.
+            LLM_MODEL = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                torch_dtype=compute_dtype,
+                device_map={'': 0}, # <-- FIX: Use 'auto' instead of explicit 'cuda:X'
+                quantization_config=bnb_config,
+                low_cpu_mem_usage=True, 
+                trust_remote_code=True
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
             )
             
             LLM_MODEL = prepare_model_for_kbit_training(LLM_MODEL)
@@ -120,6 +164,10 @@ def load_llm_resources(model_name):
             
             LLM_MODEL = get_peft_model(LLM_MODEL, lora_config)
             
+<<<<<<< HEAD
+=======
+            # Ensure the use_cache fix is applied to the config 
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
             if getattr(LLM_MODEL.config, "use_cache", False):
                 LLM_MODEL.config.use_cache = False
             
@@ -137,6 +185,10 @@ def load_llm_resources(model_name):
         sys.stderr.write(f"CRITICAL ERROR::Model Loading Failed: {e}\n")
         sys.stderr.write(traceback.format_exc())
         sys.stderr.flush()
+<<<<<<< HEAD
+=======
+        # Set to None if failure occurs
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         LLM_MODEL = None
         LLM_TOKENIZER = None
 
@@ -156,28 +208,51 @@ def generate_with_streamer(messages, device, tokenizer, model, streamer, event):
             return_tensors="pt"
         )
         
+<<<<<<< HEAD
+=======
+        # Inputs must be moved to the model's primary device(s)
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         input_ids = inputs.input_ids.to(model.device) 
         attention_mask = inputs.attention_mask.to(model.device)
 
         event.set()
 
+<<<<<<< HEAD
         model.generate(
             input_ids,
             attention_mask=attention_mask,
             max_new_tokens=MODEL_MAX_LENGTH,
+=======
+        stop_token_ids = tokenizer.encode(STOP_PHRASE, return_tensors='pt')[0]
+        # Ensure custom stop criteria tokens are on the correct device
+        custom_stop = StopAfterPhraseCriteria(stop_token_ids.to(model.device))
+        stopping_criteria = StoppingCriteriaList([custom_stop])
+        
+        model.generate(
+            input_ids,
+            attention_mask=attention_mask,
+            max_new_tokens=512,
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
             temperature=0.65,
             top_p=0.9,
             do_sample=True,
             streamer=streamer,
             eos_token_id=tokenizer.eos_token_id, 
             pad_token_id=tokenizer.pad_token_id,
+<<<<<<< HEAD
             repetition_penalty=1.1
+=======
+            stopping_criteria=stopping_criteria,
+            repetition_penalty=1.1,
+            use_cache=True
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         )
     except Exception as e:
         sys.stderr.write(f"!!! GENERATION FAILED !!!\nError in generate_with_streamer: {e}\n")
         sys.stderr.write(traceback.format_exc())
         sys.stderr.flush()
 
+<<<<<<< HEAD
 def clean_to_ascii(text: str):
     ascii_text = unidecode.unidecode(text)
     
@@ -187,6 +262,8 @@ def clean_to_ascii(text: str):
     
     return filtered_text
 
+=======
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
 def run_rag_ai(query, session_id, user_id):
     """
     The main RAG execution function. Now only initializes RAG components and
@@ -200,6 +277,12 @@ def run_rag_ai(query, session_id, user_id):
         return
     
     try:
+<<<<<<< HEAD
+=======
+        # NOTE: RAG components (loaders, splitter, embeddings, vectorstore) 
+        # are currently loaded/initialized on every call, which will still add latency.
+        
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         file_dir = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(file_dir, "SampleContract-Shuttle.pdf")
         loader = PyPDFLoader(file_path)
@@ -213,6 +296,10 @@ def run_rag_ai(query, session_id, user_id):
         split_documents = text_splitter.split_documents(documents)
         
         cuda_is_available = torch.cuda.is_available()
+<<<<<<< HEAD
+=======
+        # Device is now determined globally upon startup: LLM_DEVICE
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         
         embeddings = HuggingFaceEmbeddings(
             model_name="all-MiniLM-L6-v2", 
@@ -230,7 +317,11 @@ def run_rag_ai(query, session_id, user_id):
 
         located_docs = vectorstore.as_retriever(
             search_type="similarity_score_threshold",
+<<<<<<< HEAD
             search_kwargs={"score_threshold": 0.32, "k": 5},
+=======
+            search_kwargs={"score_threshold": 0.4, "k": 5},
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
         ).invoke(query)
         
         has_relevant_document = len(located_docs) > 0
@@ -263,10 +354,23 @@ def run_rag_ai(query, session_id, user_id):
             args=(final_messages, LLM_DEVICE, LLM_TOKENIZER, LLM_MODEL, streamer, generation_started_event,)
         )
         thread.start()
+<<<<<<< HEAD
         generation_started_event.wait() 
         
         for chunk in streamer: 
             sys.stdout.write(f"{user_id}--{session_id}::{clean_to_ascii(chunk)}")
+=======
+        
+        # Start streaming the response output
+        sys.stdout.flush()
+
+        generation_started_event.wait() 
+        
+        for chunk in streamer: 
+            # Write only the chunk data, as the prefix is already written
+            # sys.stdout.write(chunk)
+            sys.stdout.write(f"{user_id}::{chunk}")
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
             sys.stdout.flush()
             
         thread.join()
@@ -289,6 +393,14 @@ def clean_memory_states():
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
+<<<<<<< HEAD
+=======
+def ranking_model(config):
+    pass
+
+def post_processing(config):
+    pass
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
 
 def main():
     """
@@ -317,6 +429,7 @@ def main():
             if not match:
                 sys.stderr.write(f"ERROR::Input format incorrect: {query_string}\n")
                 continue
+<<<<<<< HEAD
             else : 
                 user_id, session_id, query = match.groups()
                 
@@ -339,3 +452,26 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(line_buffering=True) 
     sys.stderr.reconfigure(line_buffering=True)
     main()
+=======
+                
+            user_id, session_id, query = match.groups()
+            
+            if len(query) > 0:
+                run_rag_ai(query, session_id, user_id)
+                
+            cleanup_thread = threading.Thread(target=clean_memory_states)
+            cleanup_thread.daemon = True 
+            cleanup_thread.start()
+            
+        except RuntimeError as err:
+            sys.stderr.write(f"Runtime Error: {user_id}::{err}\n")
+            sys.stderr.flush()
+        except Exception as e:
+            sys.stderr.write(f"General Error: {user_id}::{e}\n")
+            sys.stderr.flush()
+
+if __name__ == "__main__":
+    sys.stdout.reconfigure(line_buffering=True) 
+    sys.stderr.reconfigure(line_buffering=True)
+    main()
+>>>>>>> c78a61277ef4ea30fddc17a1cffa5a75f1d09393
