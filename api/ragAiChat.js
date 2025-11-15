@@ -53,7 +53,7 @@ function createRagAiChat(io){
             ragAiChat = io.of("/ragAiChat");
             const path = require('path');
             const scriptPath = path.resolve(__dirname, '../rag_ai.py');
-
+            
             runRagAI = spawn("python", ["-u", scriptPath]);
             attatchResponseListeners(); 
         }
@@ -63,7 +63,7 @@ function createRagAiChat(io){
             });
 
             ragAiChat.on("connection",(socket)=>{
-                const userId = socket.handshake.query.userId;
+                const userId = socket.userId;
 
                 if (!userId) {
                     console.error("Connection blocked: Missing User ID.");

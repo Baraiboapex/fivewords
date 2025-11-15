@@ -1,0 +1,1 @@
+const PASSWORD_RESET_DATA = {};

@@ -1,4 +1,3 @@
-
 function handleMissingFieldsErrors({req, requiredFields, func}){
     try{
         if(Object.keys(req).length === requiredFields.length){
@@ -41,7 +40,6 @@ async function handlDBQueryErrors({req, requiredFields, func}){
             reject(err);
         }
     });
-    
 }
 
 module.exports = {

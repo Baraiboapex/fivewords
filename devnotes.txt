@@ -1,11 +1,43 @@
+NOMENCLATURE HELPER:
+-----------------------------
+FE = Front End (As in Front End Application, NOT the element iron on the periodic table xD).
+
 TODO:
 -----------------------------------------------------------------------------------
-1.) Wire up all API functions to the repository layer! => WIP
+1.) Wire up all API functions to the repository layer! => Done.
 
-2.)Get started on designing and developing the react native FE!!
+2.) Get started on designing and developing the react native FE!! ==> Done.
 
-3.) Test API with postman!
+3.) Implement the jwt token authorization! ==> Done.
 
-4.) Learn how node.js middlewear works! 
+4.) Finish making layouts for the FE!!! ==> Done. 
 
-5.) Add test cases to your API!
+5.) Implement sign-up and password reset functionality API! ==> Done.
+
+6.) Wire up sign-up and password reset functionality on FE ==> Done.
+
+7.) Set up SMTP server! ==> Done. 
+
+8.) Get api's on over to live database! ==> Done.
+
+9.) Implement global error handling on FE! ==> Done.
+
+10.) Correct bug with the live db wher performing firebase db queries in the live repository ==> Done.
+
+11.) Make corrections to AI based off of lessons learned from RAG AI! ==> Done.
+
+12.) Split the navigation up for the logged in and not logged in state of the app! ==> Done.
+
+13.) Add delete mistake API. ==> WIP.
+
+14.) Add data to the live database ==> Tomorrow.
+
+15.) Test API and FE and make corrections! ==> Tomorrow.
+
+16.) Deploy App (The other RAG AI needs to be first though) ==> Tomorrow.
+
+WAIT ON THESE
+//------------------------------------
+1.) Add test cases to your API!
+
+2.) Learn how node.js middlewear works!

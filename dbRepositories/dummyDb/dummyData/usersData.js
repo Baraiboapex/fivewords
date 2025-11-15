@@ -1,98 +1,104 @@
 const USERS_DATA = {
-  "5364788967079":{
-    id: "5364788967079",
+  "6a8e71c2-b822-4cfd-988e-15fb566fb88e":{
+    id: "6a8e71c2-b822-4cfd-988e-15fb566fb88e",
     dateCreated: dayjs(new Date().toISOString())
       .subtract(2, "days")
       .format("MM-DD-YYYY"),
     email: "datGuy3@gmail.com",
     password: "Welcome3",
-    userToken:"4965345765784253575869786-34125845367",
     userMistakes:{
-      "05788659866790":{
-        id: "05788659866790",
+      "90f06ea9-7cd1-4d94-90b7-5c5c7833a9bc":{
+        id: "90f06ea9-7cd1-4d94-90b7-5c5c7833a9bc",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(2, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 1",
         mistakeDescription: "I did something wrong 1 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "3650647567980790":{
-        id: "3650647567980790",
+      "16b0d9fd-9657-4b28-98c8-0ee03f09c1fa":{
+        id: "16b0d9fd-9657-4b28-98c8-0ee03f09c1fa",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(1, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 2",
         mistakeDescription: "I did something wrong 2 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "162356385689":{
-        id: "162356385689",
+      "d4138230-4f77-4491-91a6-6b0e2b63c080":{
+        id: "d4138230-4f77-4491-91a6-6b0e2b63c080",
         dateCreated: dayjs(new Date().toISOString()).format("MM-DD-YYYY"),
         mistakeName: "I screwed up 3",
         mistakeDescription: "I did something wrong 3 and it was quite stupid LOL.",
+        isDeleted:false
       },
     }
   },
-  "354696768909708":{
-    id: "354696768909708",
+  "9d678790-1285-4ed7-844e-60f6d9baed3a":{
+    id: "9d678790-1285-4ed7-844e-60f6d9baed3a",
     dateCreated: dayjs(new Date().toISOString())
       .subtract(1, "days")
       .format("MM-DD-YYYY"),
     email: "datGuy2@gmail.com",
     password: "Welcome2",
-    userToken:"748596347245678590780-24354658",
     userMistakes:{
-      "05788659866790":{
-        id: "05788659866790",
+      "26bafb13-9900-4025-985d-cc1017a2da6b":{
+        id: "26bafb13-9900-4025-985d-cc1017a2da6b",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(2, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 1",
         mistakeDescription: "I did something wrong 1 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "3650647567980790":{
-        id: "3650647567980790",
+      "0078cee4-b51a-48a4-9601-35cfff283381":{
+        id: "0078cee4-b51a-48a4-9601-35cfff283381",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(1, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 2",
         mistakeDescription: "I did something wrong 2 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "162356385689":{
-        id: "162356385689",
+      "cce51e2d-a715-412e-9a96-1f71d0160790":{
+        id: "cce51e2d-a715-412e-9a96-1f71d0160790",
         dateCreated: dayjs(new Date().toISOString()).format("MM-DD-YYYY"),
         mistakeName: "I screwed up 3",
         mistakeDescription: "I did something wrong 3 and it was quite stupid LOL.",
+        isDeleted:false
       },
     }
   },
-  "70657850876346":{
-    id: "70657850876346",
+  "2da86ac3-40bb-49a2-a61e-c2567c6a550a":{
+    id: "2da86ac3-40bb-49a2-a61e-c2567c6a550a",
     dateCreated: dayjs(new Date().toISOString()).format("MM-DD-YYYY"),
     email: "datGuy1@gmail.com",
     password: "Welcome2",
-    userToken:"23482454657y787562134-235764",
     userMistakes:{
-      "05788659866790":{
-        id: "05788659866790",
+      "f0fb03e7-e815-4265-8fa6-14e4c7f09830":{
+        id: "f0fb03e7-e815-4265-8fa6-14e4c7f09830",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(2, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 1",
         mistakeDescription: "I did something wrong 1 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "3650647567980790":{
-        id: "3650647567980790",
+      "f6794f4e-e071-4bc7-be93-e6cc5406e354":{
+        id: "f6794f4e-e071-4bc7-be93-e6cc5406e354",
         dateCreated: dayjs(new Date().toISOString())
           .subtract(1, "days")
           .format("MM-DD-YYYY"),
         mistakeName: "I screwed up 2",
         mistakeDescription: "I did something wrong 2 and it was quite stupid LOL.",
+        isDeleted:false
       },
-      "162356385689":{
-        id: "162356385689",
+      "9edb9324-4032-43da-9c9a-ee80ea8104b4":{
+        id: "9edb9324-4032-43da-9c9a-ee80ea8104b4",
         dateCreated: dayjs(new Date().toISOString()).format("MM-DD-YYYY"),
         mistakeName: "I screwed up 3",
         mistakeDescription: "I did something wrong 3 and it was quite stupid LOL.",
+        isDeleted:false
       },
     }
   }

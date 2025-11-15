@@ -317,15 +317,15 @@ def main():
             if not match:
                 sys.stderr.write(f"ERROR::Input format incorrect: {query_string}\n")
                 continue
-            else : 
-                user_id, session_id, query = match.groups()
                 
-                if len(query) > 0:
-                    run_rag_ai(query, session_id, user_id)
-                    
-                cleanup_thread = threading.Thread(target=clean_memory_states)
-                cleanup_thread.daemon = True 
-                cleanup_thread.start()
+            user_id, session_id, query = match.groups()
+            
+            if len(query) > 0:
+                run_rag_ai(query, session_id, user_id)
+                
+            cleanup_thread = threading.Thread(target=clean_memory_states)
+            cleanup_thread.daemon = True 
+            cleanup_thread.start()
             
         except RuntimeError as err:
             sys.stderr.write(f"{user_id}--{session_id}::{err}\n")

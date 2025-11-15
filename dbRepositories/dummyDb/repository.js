@@ -4,8 +4,8 @@ const {
     USERS_DATA
 } = require("./dummyData/usersData.js");
 const {
-    MISTAKES_DATA
-} = require("./dummyData/mistakesData.js");
+   PASSWORD_RESET_DATA
+} = require("./dummyData/passwordResetData.js");
 
 const dbContainer = {
     dbObject: null,
@@ -14,6 +14,7 @@ const dbContainer = {
         console.log(config, name)
         const db = {
             users:USERS_DATA,
+            passwordReset:PASSWORD_RESET_DATA
         };
         const dbObj = db;
 
@@ -25,10 +26,19 @@ const dbContainer = {
         if (this.dbObject) {
             return new Promise((resolve, reject) => {
             try {
-                if (auth.keyToFilterBy) {
-                const database = this.dbObject[auth.dbName];
-                const data = _.get(database, auth.dbName)
-                resolve(data);
+                if (auth.dbName) {
+                    const database = this.dbObject[auth.dbName];
+
+                    let data = null;
+
+                    if(auth.dbPath){
+                        data = _.get(database, auth.dbPath);
+                    }
+
+                    if(auth.dbFind){
+                        data = _.find(database, auth.dbfind);
+                    }
+                    resolve(data);
                 }
             } catch (err) {
                 reject(err);
@@ -40,8 +50,10 @@ const dbContainer = {
         if (dbObject) {
             return new Promise((resolve, reject) => {
                 try {
-                    const database = this.dbObject[auth.dbName];
-                    _.set(database, auth.dbPath, auth.newData);
+                    if (auth.dbName) {
+                        const database = this.dbObject[auth.dbName];
+                        _.set(database, auth.dbPath, auth.newData);
+                    }
                 } catch (err) {
                     reject(err);
                 }
@@ -52,8 +64,10 @@ const dbContainer = {
         if (dbObject) {
             return new Promise((resolve, reject) => {
                 try {
-                    const database = this.dbObject[auth.dbName];
-                    _.unset(database, auth.dbName);
+                    if (auth.dbName) {
+                        const database = this.dbObject[auth.dbName];
+                        _.unset(database, auth.dbPath);
+                    }
                 } catch (err) {
                     reject(err);
                 }

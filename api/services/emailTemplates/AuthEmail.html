@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body{
+        background-color:#E4EFE2;
+        margin:2em;
+      }
+
+      section{
+        background-color:white;
+        border-top:1em solid #116d92;
+        border-radius: 0.5em;
+        margin:0.5em;
+        padding:1em;
+        border-left: 0.5px solid gray;
+        border-right: 0.5px solid gray;
+        border-bottom: 0.5px solid gray;
+      }
+
+      .code-container{
+        background-color:light-gray;
+        padding:1em;
+        width:100%;
+        text-align:center;
+        letter-spacing:1em;
+        background-color:"light-gray";
+      }
+
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>Authentication Code</h1>
+      <hr/>
+      <h3>
+        Below is the 6-digit authentication code for you to enter into the following application:  <strong>{{ applicationName }}</strong>
+      </h3>
+      <div class="flex-content-container">
+        <h1 class="code-container">
+          {{ authCode }}
+        </h1>
+      </div>
+      <hr/>
+    </section>
+  </body>
+
